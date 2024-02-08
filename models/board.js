@@ -1,19 +1,15 @@
 const Sequelize = require("sequelize");
 
-module.exports = class User extends Sequelize.Model {
+module.exports = class Board extends Sequelize.Model {
   static init(sequelize) {
     return super.init(
       {
-        username: {
+        title: {
           type: Sequelize.STRING(40),
           allowNull: false,
         },
-        password: {
-          type: Sequelize.STRING(40),
-          allowNull: false,
-        },
-        name: {
-          type: Sequelize.STRING(20),
+        content: {
+          type: Sequelize.TEXT,
           allowNull: false,
         },
       },
@@ -21,8 +17,8 @@ module.exports = class User extends Sequelize.Model {
         sequelize,
         charset: "utf8",
         collate: "utf8_general_ci",
-        tableName: "user",
-        modelName: "User",
+        tableName: "board",
+        modelName: "Board",
         underscored: true,
         timestamps: false,
       }
@@ -30,6 +26,6 @@ module.exports = class User extends Sequelize.Model {
   }
  
   static associate(db) {
-    db.User.hasMany(db.Board, { foreignKey: "user_id", sourceKey: "id" });
+    db.Board.belongsTo(db.User, { foreignKey: "user_id", targetKey: "id" });
   }
 };
